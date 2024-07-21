@@ -1,5 +1,6 @@
 import pickle
 import streamlit as st
+from sklearn.preprocessing import LabelEncoder
 
 # Membaca model
 diabetes_model = pickle.load(open('upitrans_model.sav', 'rb'))
@@ -33,7 +34,17 @@ upitrans_pred = ''
 
 # Membuat tombol untuk prediksi
 if st.button('Test Prediksi Status'):
-    upitrans_pred = diabetes_model.predict([[TransactionID, SenderName, SenderUPIID, ReceiverName, ReceiverUPIID, Timestamp]])
+    # Label encoding untuk data string
+    le = LabelEncoder()
+    encoded_sender_name = le.fit_transform([SenderName])
+    encoded_sender_upi_id = le.fit_transform([SenderUPIID])
+    encoded_receiver_name = le.fit_transform([ReceiverName])
+    encoded_receiver_upi_id = le.fit_transform([ReceiverUPIID])
+    encoded_transaction_id = le.fit_transform([TransactionID])
+    encoded_timestamp = le.fit_transform([Timestamp])
+
+    # Prediksi menggunakan model
+    upitrans_pred = diabetes_model.predict([[encoded_transaction_id[0], encoded_sender_name[0], encoded_sender_upi_id[0], encoded_receiver_name[0], encoded_receiver_upi_id[0], encoded_timestamp[0]]])
 
     # Memetakan hasil prediksi
     if upitrans_pred == 'FAILED':
