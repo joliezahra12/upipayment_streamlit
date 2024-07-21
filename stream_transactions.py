@@ -36,9 +36,9 @@ upitrans_pred = ''
 if st.button('Test Prediksi Status'):
     resto_prediction = resto_model.predict([[TransactionID, SenderName, SenderUPIID, ReceiverName, ReceiverUPIID, Timestamp]])
 
-   if status_pred == 'FAILED':
+   if upitrans_pred == 'FAILED':
     return 0
-elif status_pred == 'SUCCESS':
+elif upitrans_pred == 'SUCCESS':
     return 1
 else:
     return None
