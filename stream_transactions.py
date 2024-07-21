@@ -1,45 +1,46 @@
 import pickle
 import streamlit as st
 
-# membaca model
+# Membaca model
 diabetes_model = pickle.load(open('upitrans_model.sav', 'rb'))
 
-#judul web
+# Judul web
 st.title('Prediksi Status')
 
-#membagi kolom
+# Membagi kolom
 col1, col2 = st.columns(2)
 
-with col1 :
-    TransactionID = st.text_input ('input TransactionID')
+with col1:
+    TransactionID = st.text_input('Input TransactionID')
 
-with col2 :
-    SenderName = st.text_input ('input SenderName')
+with col2:
+    SenderName = st.text_input('Input SenderName')
 
-with col1 :
-    SenderUPIID = st.text_input ('input SenderUPIID')
+with col1:
+    SenderUPIID = st.text_input('Input SenderUPIID')
 
-with col2 :
-    ReceiverName = st.text_input ('input ReceiverName')
+with col2:
+    ReceiverName = st.text_input('Input ReceiverName')
 
-with col1 :
-    ReceiverUPIID = st.text_input ('input ReceiverUPIID')
+with col1:
+    ReceiverUPIID = st.text_input('Input ReceiverUPIID')
 
-with col2 :
-    Timestamp = st.text_input ('input Timestamp')
+with col2:
+    Timestamp = st.text_input('Input Timestamp')
 
-
-# code untuk prediksi
+# Code untuk prediksi
 upitrans_pred = ''
 
-# membuat tombol untuk prediksi
+# Membuat tombol untuk prediksi
 if st.button('Test Prediksi Status'):
-    resto_prediction = resto_model.predict([[TransactionID, SenderName, SenderUPIID, ReceiverName, ReceiverUPIID, Timestamp]])
+    upitrans_pred = diabetes_model.predict([[TransactionID, SenderName, SenderUPIID, ReceiverName, ReceiverUPIID, Timestamp]])
 
-   if upitrans_pred == 'Failed':
-    return 0
-elif upitrans_pred == 'SUCCESS':
-    return 1
-else:
-    return None
-st.success(upitrans_pred)
+    # Memetakan hasil prediksi
+    if upitrans_pred == 'FAILED':
+        upitrans_pred = 0
+    elif upitrans_pred == 'SUCCESS':
+        upitrans_pred = 1
+    else:
+        upitrans_pred = None
+
+    st.success(f'Prediksi Status: {upitrans_pred}')
