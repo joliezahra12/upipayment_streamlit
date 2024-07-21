@@ -34,11 +34,11 @@ upitrans_pred = ''
 
 # membuat tombol untuk prediksi
 if st.button('Test Prediksi Status'):
-    resto_prediction = resto_model.predict([[TransactionID, SenderName, SenderUPIID, ReceiverName, ReceiverUPIID, Amount(INR)]])
+    resto_prediction = resto_model.predict([[TransactionID, SenderName, SenderUPIID, ReceiverName, ReceiverUPIID, Timestamp]])
 
-   if upitrans_pred == 'FAILED':
+   if status_pred == 'FAILED':
     return 0
-elif upitrans_pred == 'SUCCESS':
+elif status_pred == 'SUCCESS':
     return 1
 else:
     return None
