@@ -22,11 +22,17 @@ if st.button('Test Prediksi Status'):
         # Debugging: Tampilkan nilai amount_inr
         st.write(f'Nilai Amount (INR) yang dimasukkan: {amount_inr}')
         
+        # Pastikan input ke model adalah array 2D
+        input_data = [[amount_inr]]
+        
+        # Debugging: Tampilkan format input_data
+        st.write(f'Format Input Data: {input_data}')
+        
         # Prediksi menggunakan model
-        upitrans_pred = upitrans_model.predict([[amount_inr]])
+        upitrans_pred = upitrans_model.predict(input_data)
         
         # Debugging: Tampilkan hasil prediksi sebelum menampilkan ke UI
-        st.write(f'Hasil Prediksi dari Model: {upitrans_pred[0]}')
+        st.write(f'Hasil Prediksi dari Model: {upitrans_pred}')
         
         # Menampilkan hasil prediksi
         st.success(f'Prediksi Status: {upitrans_pred[0]}')
