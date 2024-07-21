@@ -2,7 +2,7 @@ import pickle
 import streamlit as st
 
 # Membaca model
-diabetes_model = pickle.load(open('upitrans_model.sav', 'rb'))
+upitrans_model = pickle.load(open('upitrans_model.sav', 'rb'))
 
 # Judul web
 st.title('Prediksi Status')
@@ -16,10 +16,22 @@ upitrans_pred = ''
 # Membuat tombol untuk prediksi
 if st.button('Test Prediksi Status'):
     try:
-        amount_inr = float(amount_inr)  # Konversi input menjadi float
-        upitrans_pred = diabetes_model.predict([[amount_inr]])
-
+        # Coba konversi input menjadi float
+        amount_inr = float(amount_inr)
+        
+        # Debugging: Tampilkan nilai amount_inr
+        st.write(f'Nilai Amount (INR) yang dimasukkan: {amount_inr}')
+        
+        # Prediksi menggunakan model
+        upitrans_pred = upitrans_model.predict([[amount_inr]])
+        
+        # Debugging: Tampilkan hasil prediksi sebelum menampilkan ke UI
+        st.write(f'Hasil Prediksi dari Model: {upitrans_pred[0]}')
+        
         # Menampilkan hasil prediksi
         st.success(f'Prediksi Status: {upitrans_pred[0]}')
+    
     except ValueError:
         st.error('Input Amount (INR) harus berupa angka.')
+    except Exception as e:
+        st.error(f'Error: {e}')
